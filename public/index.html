@@ -1,43 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+  
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+  <button id="btn">Clone Card</button>
+  <button id="btnColor">Change Card Color</button>
+  <button id="titleBtn">Change Title</button>
+  <button id="deleteBtn">Delete Last Card</button>
+<div class="cards">
+    <div class="card-container">
+      <div class="card-content">
+        <h2 id="cardTitle">Penn State Lacrosse</h2>
+        <p>We Are!</p>
+        <img src="https://dxbhsrqyrr690.cloudfront.net/sidearm.nextgen.sites/gopsusports.com/images/2019/4/12/DSC_3685.jpg" alt="Card Image">
+        <div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+            <style>
+        .hidden {
+            display: none;
+        }
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .card-container {
+            background-color: #001e44;
+            width: 20%;
+            margin: 8px;
+            padding: 10px;
+            border-radius: 12px;
+        }
+        .card-content img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+    </style>
+ </head>
+            
+          <button class="details-button">Toggle Description</button>
+        </div>
+      </div>
+      <p class="description hidden" id="cDescription">Come Watch Penn State Lacrosse Dominate!</p>
+    </div>
+  </div>
+
+  <script>
+    const button = document.querySelector("#btn");
+    const colorButton = document.querySelector("#btnColor");
+    const cardContainer = document.querySelector(".card-container");
+    const cardTitle = document.querySelector("#cardTitle");
+    const detailsButton = document.querySelector(".details-button");
+    const description = document.querySelector(".description");
+    const deleteButton = document.querySelector("#deleteBtn");
+    const titleButton = document.querySelector("#titleBtn");
+
+    button.addEventListener("click", function (e) {
+      const cardToClone = document.querySelector(".card-container");
+      const cardCloned = cardToClone.cloneNode(true);
+      
+    cardCloned.querySelector(".details-button").addEventListener("click", function (e) { //59-63 toggle description cloned cards
+    const description = cardCloned.querySelector(".description");
+    if (description) {
+    description.classList.toggle("hidden");
+    }
+});
+      document.querySelector(".cards").appendChild(cardCloned);
+    });
+
+    colorButton.addEventListener("click", function (e) {
+    
+      const randomColor = getRandomColor();
+      cardContainer.style.backgroundColor = randomColor;
+    });
+
+    cardTitle.addEventListener("click", function (e) {
+   
+      cardTitle.textContent = "Something Else";
+    });
+
+    detailsButton.addEventListener("click", function (e) {
+     
+      description.classList.toggle("hidden");
+      
+    });
+
+    deleteButton.addEventListener("click", function (e) {
+      
+      const cards = document.querySelectorAll(".card-container");
+      if (cards.length > 1) {
+        const lastCard = cards[cards.length - 1];
+        lastCard.parentNode.removeChild(lastCard);
+      }
+    });
+
+    titleButton.addEventListener("click", function (e) {
+      
+      
+      cardTitle.textContent = "something else";
+    });
+
+    //Random color generator
+    function getRandomColor() {
+      const letters = "0123456789ABCDEF";
+      let color = "#";
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+  </script>
+
 </html>
